@@ -1,0 +1,3 @@
+g++			 -c -g -Wall		 test.cpp -o test.o
+g++			 -c -g -Wall		 class.cpp -o class.o
+g++			 -o mytest			 test.o class.o 	 -L.			 -lm			
