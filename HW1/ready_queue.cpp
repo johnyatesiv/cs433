@@ -31,6 +31,41 @@ ReadyQueue::~ReadyQueue() {
     }
 };
 
+/* Required Methods */
+
+/* Adds a PCB to the Queue */
+void ReadyQueue::insertProc(PCB proc) {
+    
+}
+
+/* Removes and returns highest priority PCB */
+PCB ReadyQueue::removeHighestProc() {
+    
+}
+
+/* Calculates the number of PCBs in the Queue and returns it */
+int ReadyQueue::size() {
+    
+}
+
+/* Displays ID and priority for each process in the queue */
+void ReadyQueue::displayQueue() {
+    cout << "[ ";
+    if(!this->isEmpty()) {
+        PCB *aNode = this->Front;
+        int i = 0;
+        while(i != this->Count) {
+            cout << aNode->Elem << " ";
+            aNode = aNode->Next;
+            i++;
+        }
+    } else {
+        cout << "empty ";
+    }
+    
+    cout << "]" << endl;
+}
+
 // Return true if Front and Rear are both pointing to NULL and Count is 0.
 // All 3 conditions must be checked.
 bool ReadyQueue::isEmpty() {

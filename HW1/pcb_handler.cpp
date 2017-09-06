@@ -4,26 +4,25 @@
  * and open the template in the editor.
  */
 
-#include "ready_queue.h"
-#include "pcb_table.h"
 #include "pcb_handler.h"
 
-PCBHandler::PCBHandler();     // constructor to create a list object
-PCBHandler::~PCBHandler();     // destructor to destroy all nodes
-
-void PCBHandler::addPCB(PCB) {
-    this->Queue->addProc(PCB);
+PCBHandler::PCBHandler() { // constructor to create a list object
+    
 }
 
-void PCBHandler::removePCB(id) {
-    this->Queue->removeProc(id);
+PCBHandler::~PCBHandler() { // destructor to destroy all nodes
+    
+}
+
+void PCBHandler::add(PCB proc) {
+    this->Queue.insertProc(proc);
+}
+
+void PCBHandler::remove(int id) {
+    // Remove proc with id from Queue
     // iterate over procs in table and remove when id match
 }
 
-PCB PCBHandler::getPCB(id) {
+PCB PCBHandler::get(int id) {
     // iterate over procs in table and return id match
-}
-
-PCB PCBHandler::getHighestPriority() {
-    // iterate over procs in table and return highest priority found
 }

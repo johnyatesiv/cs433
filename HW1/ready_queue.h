@@ -4,8 +4,6 @@
 // File Summary
 //=======================================================
 
-#include "pcb.h"
-
 class ReadyQueue {
   
  private:
@@ -19,7 +17,18 @@ class ReadyQueue {
 
     ReadyQueue();     // constructor to create a list object
     ~ReadyQueue();     // destructor to destroy all nodes
+    
+    /* Required Queue Methods */
+    void insertProc(PCB proc);
   
+    PCB removeHighestProc();
+    
+    int size();
+    
+    void displayQueue();
+    
+    /* Extra Methods */
+    
     //Checks to see if this Front and Rear point to NULL and Count == 0
     bool isEmpty();
     
@@ -27,20 +36,20 @@ class ReadyQueue {
     void displayAll();
 
     //**
-    void addFront(PCB);
+    void addFront(PCB pcb);
     
     //**
-    void addRear(PCB);
+    void addRear(PCB pcb);
 
     //**
-    void deleteFront(PCB&);
+    void deleteFront(PCB& pcb);
 
     //**
-    void deleteRear(PCB&);
+    void deleteRear(PCB& pcb);
 
     //**
-    void deleteIth(int, PCB&);
+    void deleteIth(int, PCB& pcb);
 
     //**    
-    void addbeforeIth(int, PCB);
+    void addbeforeIth(int i, PCB pcb);
 };

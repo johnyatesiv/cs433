@@ -11,15 +11,12 @@ class PCB {
         PCB();
         PCB(const PCB& orig);
         virtual ~PCB();
-        el_t Elem;   // elem is the element stored
+        //el_t Elem;   // elem is the element stored
         PCB *Next;  // next is the pointer to the next node
         int id;
         int state; //0 - Running, 1 - Waiting, 2 - Stopped, 3 - Pending Cleanup
         int programCounter;
         int priority;
-        
     private:
 };
-
-#endif /* PCB_H */
 

@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include "test.h"
-#include "ready_queue.h"
+#include "pcb_handler.h"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	printf("----CS 433 Assignment 1----\n");
 	printf("Group memebers: ??? \n");
         
-        pcb_table PCB;
+        PCBHandler handler = PCBHandler();
        
 	return 0;
 }

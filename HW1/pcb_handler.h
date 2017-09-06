@@ -4,23 +4,47 @@
 // File Summary
 //=======================================================
 
+#include "pcb.h"
+#include "ready_queue.h"
+
 class PCBHandler {
  private:
  public:
-    PCB table[9999];       // pointer to the front node
-    ReadyQueue Queue;        // pointer to the rear node
+    PCB table[9999];       // Array containing PCB objects
+    ReadyQueue Queue;        // Priority queue containing handle PCBs
     int Count;        // counter for the number of nodes
 
-    PCBHandler();     // constructor to create a list object
-    ~PCBHandler();     // destructor to destroy all nodes
+    PCBHandler();     // constructor to create a PCBHandler
+    ~PCBHandler();     // destructor to destroy a PCBHandler
     
-    void addPCB(PCB);
+    /*
+     * addPCB
+     * 
+     * Adds a PCB object to the PCBTable for loading into the ReadyQueue
+     */
+    void add(PCB pcb); 
     
-    void removePCB(id);
+    /*
+     * removePCB
+     * 
+     * Removes a PCB object by ID from the PCB Table
+     */
+    void remove(int id);
     
-    PCB getPCB(id);
     
-    PCB getHighestPriority()
+    /*
+     * getPCB
+     * 
+     * Returns a PCB object specified by the ID parameter
+     */
+    PCB get(int id);
+    
+    /*
+     * getHighestPriority
+     * 
+     * Returns the highest priority PCB known to the PCBHandler
+     */
+    PCB getHighestPriority();
 };
 
 
