@@ -13,8 +13,9 @@
 
 #include "pcb.h"
 
-PCB::PCB() {
-    
+PCB::PCB(int priority, int id) {
+    this->priority = priority;
+    this->id = id;
 }
 
 PCB::PCB(const PCB& orig) {

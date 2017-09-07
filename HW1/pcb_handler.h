@@ -4,13 +4,14 @@
 // File Summary
 //=======================================================
 
+//using namespace std;
 #include "pcb.h"
 #include "ready_queue.h"
 
 class PCBHandler {
  private:
  public:
-    PCB table[9999];       // Array containing PCB objects
+    //PCB *table[9999];       // Array containing PCB objects
     ReadyQueue Queue;        // Priority queue containing handle PCBs
     int Count;        // counter for the number of nodes
 
@@ -22,7 +23,7 @@ class PCBHandler {
      * 
      * Adds a PCB object to the PCBTable for loading into the ReadyQueue
      */
-    void add(PCB pcb); 
+    void add(PCB *proc); 
     
     /*
      * removePCB
@@ -44,7 +45,13 @@ class PCBHandler {
      * 
      * Returns the highest priority PCB known to the PCBHandler
      */
-    PCB getHighestPriority();
+    PCB *removeHighestPriority();
+    
+    /* Calls the Queue display method */
+    void showQueue();
+    
+    /* Calls the Queue for its function to check if empty */
+    bool queueEmpty();
 };
 
 

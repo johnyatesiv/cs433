@@ -7,15 +7,17 @@
 #include "pcb_handler.h"
 
 PCBHandler::PCBHandler() { // constructor to create a list object
-    
+    //PCB *table = *PCB[9999];
 }
+
 
 PCBHandler::~PCBHandler() { // destructor to destroy all nodes
     
 }
 
-void PCBHandler::add(PCB proc) {
-    this->Queue.insertProc(proc);
+void PCBHandler::add(PCB *proc) {
+    Queue.insertProc(proc);
+    //push to table
 }
 
 void PCBHandler::remove(int id) {
@@ -25,4 +27,16 @@ void PCBHandler::remove(int id) {
 
 PCB PCBHandler::get(int id) {
     // iterate over procs in table and return id match
+}
+
+void PCBHandler::showQueue() {
+    Queue.displayQueue();
+}
+
+bool PCBHandler::queueEmpty() {
+    return Queue.isEmpty();
+}
+
+PCB *PCBHandler::removeHighestPriority() {
+    return Queue.removeHighestProc();
 }
