@@ -33,25 +33,38 @@ ReadyQueue::~ReadyQueue() {
 
 /* Adds a PCB to the Queue */
 void ReadyQueue::insertProc(PCB *proc) {
-    proc->Next = this->Front;
-    this->Front = proc;
     if(this->isEmpty()) {
+        cout << "Inserting proc, empty case." << endl;
         this->Front = proc;
         this->Rear = proc;
+        this->Count++;
     } else {
+        cout << "Nonempty case: Count is at " << this->Count << endl;
         PCB* activePCB = this->Front;
         PCB* nextPCB = activePCB->Next;
         
-        for(int i=1; i<this->Count; i++) {
+        int exit = 0;
+        
+        while(exit != 1) {
             if(nextPCB == NULL) {
+                cout << "Inserting proc, encountered end of queue." << endl;
                 activePCB->Next = proc;
-            } else if(activePCB->priority > nextPCB->priority) {
-                activePCB->Next = proc;
-                proc->Next = nextPCB;
-                return;
+                this->Rear = proc;
+                this->Count++;
+                exit = 1;
             } else {
-                activePCB = nextPCB;
-                nextPCB = activePCB->Next;
+                if(activePCB->priority > nextPCB->priority) {
+                    //Needs to set activePCB to Front?
+                    cout << "Inserting proc, encountered priority slot." << endl;
+                    activePCB->Next = proc;
+                    proc->Next = nextPCB;
+                    this->Count++;
+                    exit = 1;
+                } else {
+                    cout << "Iterating." << endl;
+                    activePCB = nextPCB;
+                    nextPCB = activePCB->Next;
+                }   
             }
         }
     }
@@ -59,15 +72,18 @@ void ReadyQueue::insertProc(PCB *proc) {
 
 /* Removes and returns highest priority PCB */
 PCB *ReadyQueue::removeHighestProc() {
+    // set the active node to the front node and the removal target to the front node
     PCB* activePCB = this->Front;
     PCB* removedPCB = activePCB;
 
     for(int i=1; i<this->Count; i++) {
         if(activePCB->priority > removedPCB->priority) {
+            cout << "Changing removal target.";
             // the active PCB is higher priority than the currently selected, update
             removedPCB = activePCB;
             activePCB = activePCB->Next;
         } else {
+            // it is not, keep iterating
             activePCB = activePCB->Next;
         }
     }
@@ -77,7 +93,7 @@ PCB *ReadyQueue::removeHighestProc() {
 
 /* Calculates the number of PCBs in the Queue and returns it */
 int ReadyQueue::size() {
-    
+    return this->Count;
 }
 
 /* Displays ID and priority for each process in the queue */
@@ -87,7 +103,7 @@ void ReadyQueue::displayQueue() {
         PCB *proc = this->Front;
         int i = 0;
         while(i != this->Count) {
-            cout << proc->id << " " << proc->priority << "\n";
+            cout << "{PID:" << proc->id << "|PRI:" << proc->priority << "},";
             proc = proc->Next;
             i++;
         }
@@ -95,11 +111,12 @@ void ReadyQueue::displayQueue() {
         cout << "empty ";
     }
     
-    cout << "]" << endl;
+    cout << " ]" << endl;
 }
 
 // Return true if Front and Rear are both pointing to NULL and Count is 0.
 // All 3 conditions must be checked.
 bool ReadyQueue::isEmpty() {
+    //cout << "Rear: " << this->Rear << " | Front: " << this->Front << " | Count: " << this->Count << endl;
     return (this->Rear == NULL && this->Front == NULL && this->Count == 0);
 };

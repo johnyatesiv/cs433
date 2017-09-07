@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+using namespace std;
+#include <iostream>
 #include "pcb_handler.h"
 
 PCBHandler::PCBHandler() { // constructor to create a list object
@@ -34,6 +36,7 @@ void PCBHandler::showQueue() {
 }
 
 bool PCBHandler::queueEmpty() {
+    cout << "is Empty? " << Queue.isEmpty() << endl;
     return Queue.isEmpty();
 }
 

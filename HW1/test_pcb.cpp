@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[]) {
 	printf("----CS 433 Assignment 1----\n");
-	printf("Group memebers: ??? \n");
+	printf("Group memebers: John Yates and Joseph Colarossi\n");
         
         PCBHandler *handler = new PCBHandler();
         
@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
         PCB *pid20 = new PCB(20, 20);
         
         /* Add PID 5, 1, 8 and 11 */
+        printf("Adding PID 5, 1, 8 and 11.\n");
         handler->add(pid5);
         handler->add(pid1);
         handler->add(pid8);
@@ -42,12 +43,14 @@ int main(int argc, char* argv[]) {
         handler->showQueue();
         
         /* Remove highest priority */
+        printf("Removing Highest Priority Process.\n");
         handler->removeHighestPriority();
         
         /* Redisplay, should be ordered 5, 8, 11 */
         handler->showQueue();
         
         /* Add PID 3, 7, 2, 12, 9 */
+        printf("Adding PID 3, 7, 2, 12 and 9.\n");
         handler->add(pid3);
         handler->add(pid7);
         handler->add(pid2);
@@ -57,8 +60,12 @@ int main(int argc, char* argv[]) {
         /* Redisplay, should be ordered 2, 3, 5, 7, 8, 9, 11, 12 */
         handler->showQueue();
         
+        printf("Hello I am here.\n");
+        
+        return 0;
+        
         /* Iterate over the remaining processes and display each time */
-        while(!handler->queueEmpty()) {
+        while(!handler->Queue.isEmpty()) {
             handler->removeHighestPriority();
             handler->showQueue();
         }
