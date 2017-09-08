@@ -45,7 +45,7 @@ void ReadyQueue::insertProc(PCB *proc) {
 
         do {
             cout << proc << " | " <<next << endl;
-            if(proc->getPriority() > next->getPriority()) {
+            if(proc->getPriority() < next->getPriority()) {
                 break; // exit and insert
             } else {
                 prev = next;
@@ -55,7 +55,7 @@ void ReadyQueue::insertProc(PCB *proc) {
 
         proc->Next = next;
         
-        if(proc->getPriority() > this->Front->getPriority()) {
+        if(proc->getPriority() < this->Front->getPriority()) {
             this->Front = proc;
         } else {
             prev->Next = proc;
@@ -95,13 +95,10 @@ void ReadyQueue::displayQueue() {
     if(!this->isEmpty()) {
         PCB *proc = this->Front;
         
-        int i = 0;
-        
-        while(i < this->Count) {
+        while(proc != NULL) {
             proc->print();
             proc = proc->Next;
             //TODO throwing segfault here - issue may be caused by improper insertion
-            i++;
         }
     } else {
         cout << "empty ";
