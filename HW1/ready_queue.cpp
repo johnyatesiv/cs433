@@ -39,33 +39,26 @@ void ReadyQueue::insertProc(PCB *proc) {
         this->Rear = proc;
         this->Count++;
     } else {
-        cout << "Nonempty case: Count is at " << this->Count << endl;
-        PCB* activePCB = this->Front;
-        PCB* nextPCB = activePCB->Next;
-        
-        int exit = 0;
-        
-        while(exit != 1) {
-            if(nextPCB == NULL) {
-                cout << "Inserting proc, encountered end of queue." << endl;
-                activePCB->Next = proc;
-                this->Rear = proc;
-                this->Count++;
-                exit = 1;
+        cout << "Nonempty case: Queue size is " << this->Count << endl;
+        PCB* next = this->Front;
+        PCB* prev = next;
+
+        do {
+            cout << proc << " | " <<next << endl;
+            if(proc->getPriority() > next->getPriority()) {
+                break; // exit and insert
             } else {
-                if(activePCB->priority > nextPCB->priority) {
-                    //Needs to set activePCB to Front?
-                    cout << "Inserting proc, encountered priority slot." << endl;
-                    activePCB->Next = proc;
-                    proc->Next = nextPCB;
-                    this->Count++;
-                    exit = 1;
-                } else {
-                    cout << "Iterating." << endl;
-                    activePCB = nextPCB;
-                    nextPCB = activePCB->Next;
-                }   
+                prev = next;
+                next = next->Next;   
             }
+        } while(next != NULL);
+
+        proc->Next = next;
+        
+        if(proc->getPriority() > this->Front->getPriority()) {
+            this->Front = proc;
+        } else {
+            prev->Next = proc;
         }
     }
 }
@@ -101,10 +94,13 @@ void ReadyQueue::displayQueue() {
     cout << "[ ";
     if(!this->isEmpty()) {
         PCB *proc = this->Front;
+        
         int i = 0;
-        while(i != this->Count) {
-            cout << "{PID:" << proc->id << "|PRI:" << proc->priority << "},";
+        
+        while(i < this->Count) {
+            proc->print();
             proc = proc->Next;
+            //TODO throwing segfault here - issue may be caused by improper insertion
             i++;
         }
     } else {

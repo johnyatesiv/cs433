@@ -11,8 +11,9 @@ class PCB {
         PCB(int priority, int id);
         PCB(const PCB& orig);
         virtual ~PCB();
-        //el_t Elem;   // elem is the element stored
         PCB *Next;  // next is the pointer to the next node
+        void print();
+        int getPriority();
         int id;
         int state; //0 - Running, 1 - Waiting, 2 - Stopped, 3 - Pending Cleanup
         int programCounter;
