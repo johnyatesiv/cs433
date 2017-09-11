@@ -1,7 +1,11 @@
 // John Yates
 // 8/30/2017
 // CS433 HW1
-// File Summary
+// 
+// This file is the header file for the ReadyQueue class, which is utilized
+// to store PCB objects by the PCB handler class. It contains methods to insert and
+// remove PCB objects, as well as to display its contents. Also included are exception
+// classes which can be used for Out of Range and Underflow conditions.
 //=======================================================
 
 #include "pcb.h"
@@ -23,7 +27,7 @@ class ReadyQueue {
     /* Required Queue Methods */
     void insertProc(PCB *proc);
     
-    PCB *removeHighestProc();
+    void removeHighestProc(PCB *proc);
     
     int size();
     
@@ -33,4 +37,6 @@ class ReadyQueue {
     
     //Checks to see if this Front and Rear point to NULL and Count == 0
     bool isEmpty();
+    
+    bool isInQueue(int id);
 };

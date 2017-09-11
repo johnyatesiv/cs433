@@ -1,7 +1,9 @@
 // John Yates
 // 8/30/2017
 // CS433 HW1
-// File Summary
+//
+// This file is the header file for the PCB class, which represents a Process in the OS.
+// It contains descriptive variables as well as a method to print itself.
 //=======================================================
 
 typedef int el_t ;  // elements will be **

@@ -1,16 +1,22 @@
 // John Yates
 // 8/30/2017
 // CS433 HW1
-// File Summary
+//
+// This file is the header file for the PCBHandler class, which is utilized
+// to manage PCB objects. It contains methods to insert and remove PCB objects
+// from a Unordered Map and a Priority Queue. This class is intended as a wrapper class
+// for the Queue and table in order to allow for single function calls for common actions
+// requiring multiple steps.
 //=======================================================
 
 using namespace std;
-#include "pcb.h"
+#include <unordered_map>
 #include "ready_queue.h"
 
 class PCBHandler {
  private:
  public:
+    unordered_map<int, PCB*> Table;
     //PCB *table[9999];       // Array containing PCB objects
     ReadyQueue Queue;        // Priority queue containing handle PCBs
     int Count;        // counter for the number of nodes
@@ -47,11 +53,12 @@ class PCBHandler {
      */
     PCB *removeHighestPriority();
     
-    /* Calls the Queue display method */
-    void showQueue();
-    
     /* Calls the Queue for its function to check if empty */
     bool queueEmpty();
+    
+    void showTable();
+    
+    void randomFromTable(PCB *proc);
 };
 
 

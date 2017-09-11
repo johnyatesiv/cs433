@@ -1,3 +1,4 @@
+#include <random>
 #include <stdio.h>
 #include "test.h"
 #include "pcb_handler.h"
@@ -9,6 +10,8 @@ int main(int argc, char* argv[]) {
 	printf("Group memebers: John Yates and Joseph Colarossi\n");
         
         PCBHandler *handler = new PCBHandler();
+        
+        printf("Breakpoint");
         
         /* Test 1 */
         PCB *pid1 = new PCB(1, 1);
@@ -39,15 +42,18 @@ int main(int argc, char* argv[]) {
         handler->add(pid8);
         handler->add(pid11);
         
+        handler->showTable();
+        
         /* Display Queue, should be ordered 1, 5, 8, 11 */
-        handler->showQueue();
+        handler->Queue.displayQueue();
         
         /* Remove highest priority */
         printf("Removing Highest Priority Process.\n");
-        handler->removeHighestPriority();
+        PCB *removed;
+        handler->Queue.removeHighestProc(removed);
         
         /* Redisplay, should be ordered 5, 8, 11 */
-        handler->showQueue();
+        handler->Queue.displayQueue();
         
         /* Add PID 3, 7, 2, 12, 9 */
         printf("Adding PID 3, 7, 2, 12 and 9.\n");
@@ -58,16 +64,14 @@ int main(int argc, char* argv[]) {
         handler->add(pid9);
        
         /* Redisplay, should be ordered 2, 3, 5, 7, 8, 9, 11, 12 */
-        handler->showQueue();
+        handler->Queue.displayQueue();
         
         printf("Hello I am here.\n");
         
-        return 0;
-        
         /* Iterate over the remaining processes and display each time */
         while(!handler->Queue.isEmpty()) {
-            handler->removeHighestPriority();
-            handler->showQueue();
+            handler->Queue.removeHighestProc(removed);
+            handler->Queue.displayQueue();
         }
         
         
@@ -76,8 +80,7 @@ int main(int argc, char* argv[]) {
         /* Select 10 random PCB objects from the existing Handler's table and reassign a random priority between 1 and 50 */
         
         int i = 0;
-//        int max = 1000000;
-        int max = 10;
+        int max = 100;
         
         /* Benchmark start */
 //        struct timeval start;
@@ -86,20 +89,53 @@ int main(int argc, char* argv[]) {
 //        gettimeofday(&start, NULL);
         time_t start = time(0);
         
+        double randomChance;
+        PCB *randomEl;
+        /* From http://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution */
+        std::random_device rd;  //Will be used to obtain a seed for the random number engine
+        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+        std::uniform_real_distribution<> dis(0, 1);
+        
         
         while(i != max) {
+            printf("Iteration ");
+            printf("%i", i);
+            printf(": ");
+            
+            randomChance = dis(gen);
+            
             /* Random 50/50 chance to either */
-//            if(case1) {
-//                /* Remove a process */
-//                handler->removeHighestPriority();
-//            } else {
-//                /* If there is a process in the table READY state not in the queue, insert it */
-//                /* Before inserting, randomize its priority between 1 and 50 */
-//                /* If the process is in the queue already, do not reinsert it */
-//            }
+            if(randomChance < 0.5) {
+                /* Remove a process */
+                printf("Removing a process.\n");
+                
+                if(!handler->Queue.isEmpty()) {
+                    printf("Post empty check");
+                    handler->Queue.removeHighestProc(removed);
+                    printf("Post remove");
+                }
+            } else {
+                //printf("HERE");
+                /* If there is a process in the table READY state not in the queue, insert it */
+                printf("Adding a process from table.\n");
+                handler->randomFromTable(randomEl);
+                
+                printf("Segfault2?");
+                
+                randomEl->print();
+                
+                printf("Segfault2?");
+                
+                if(!handler->Queue.isInQueue(randomEl->id)) {
+                    /* Before inserting, randomize its priority between 1 and 50 */
+                    //randomEl->priority
+                    handler->Queue.insertProc(randomEl);
+                }
+
+                /* If the process is in the queue already, do not reinsert it */
+            }
             
             i++;
-            printf("%f", i);
         }
         
         /* Benchmark finish */
