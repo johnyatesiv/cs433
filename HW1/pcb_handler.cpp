@@ -31,9 +31,10 @@ PCBHandler::~PCBHandler() { // destructor to destroy all nodes
  * 
  */
 void PCBHandler::add(PCB *proc) {
+    // Add to Queue
     Queue.insertProc(proc);
-    //push to table
-    Table.insert(make_pair(proc->id, proc));
+    // Add to Table
+    Table.put(proc->id, proc);
 }
 
 /*
@@ -52,7 +53,8 @@ void PCBHandler::remove(int id) {
  * 
  * Finds and returns an element at the specified index in the table.
  */
-PCB PCBHandler::get(int id) {
+PCB* PCBHandler::get(int id) {
+    return Table.get(id);
     // iterate over procs in table and return id match
 }
 
@@ -74,10 +76,7 @@ bool PCBHandler::queueEmpty() {
  * 
  */
 void PCBHandler::showTable() {
-    cout << "|Key   |Value  |\n";
-    for( const auto& entry : this->Table ) {
-        cout << "|" << entry.first << "|" << entry.second << "|\n";
-    }
+    Table.print();
 }
 
 /*
@@ -86,26 +85,6 @@ void PCBHandler::showTable() {
  * Selects a random index from 0 to the highest index and passes the element at that index back by reference.
  * 
  */
-void PCBHandler::randomFromTable(PCB *proc) {
-    double random;
-    int randomInt;
-    
-    std::unordered_map<int, PCB*>::const_iterator found;
-    std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(0, Table.size());
-    
-    random = dis(gen);
-    randomInt = (int) random;
-    
-    found = Table.find(random);
-    cout << found->first << " is " << found->second << endl;
-    found->second->print();
-    cout << "Segfault?" << endl;
-    
-    proc = found->second;
-    
-    cout << "Segfault again?" << endl;
-    
-    //TODO segfault after this point in test
+PCB* PCBHandler::randomFromTable() {
+    return Table.getRandom();
 }

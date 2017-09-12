@@ -11,8 +11,6 @@ int main(int argc, char* argv[]) {
         
         PCBHandler *handler = new PCBHandler();
         
-        printf("Breakpoint");
-        
         /* Test 1 */
         PCB *pid1 = new PCB(1, 1);
         PCB *pid2 = new PCB(2, 2);
@@ -41,6 +39,8 @@ int main(int argc, char* argv[]) {
         handler->add(pid1);
         handler->add(pid8);
         handler->add(pid11);
+        
+        printf("Showing Table.");
         
         handler->showTable();
         
@@ -89,12 +89,13 @@ int main(int argc, char* argv[]) {
 //        gettimeofday(&start, NULL);
         time_t start = time(0);
         
-        double randomChance;
-        PCB *randomEl;
         /* From http://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution */
         std::random_device rd;  //Will be used to obtain a seed for the random number engine
         std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
         std::uniform_real_distribution<> dis(0, 1);
+        
+        double randomChance;
+        PCB *randomEl;
         
         
         while(i != max) {
@@ -118,7 +119,7 @@ int main(int argc, char* argv[]) {
                 //printf("HERE");
                 /* If there is a process in the table READY state not in the queue, insert it */
                 printf("Adding a process from table.\n");
-                handler->randomFromTable(randomEl);
+                randomEl = handler->randomFromTable();
                 
                 printf("Segfault2?");
                 

@@ -12,11 +12,12 @@
 using namespace std;
 #include <unordered_map>
 #include "ready_queue.h"
+#include "pcb_table.h"
 
 class PCBHandler {
  private:
  public:
-    unordered_map<int, PCB*> Table;
+    PCBTable Table;
     //PCB *table[9999];       // Array containing PCB objects
     ReadyQueue Queue;        // Priority queue containing handle PCBs
     int Count;        // counter for the number of nodes
@@ -44,7 +45,7 @@ class PCBHandler {
      * 
      * Returns a PCB object specified by the ID parameter
      */
-    PCB get(int id);
+    PCB* get(int id);
     
     /*
      * getHighestPriority
@@ -58,7 +59,7 @@ class PCBHandler {
     
     void showTable();
     
-    void randomFromTable(PCB *proc);
+    PCB* randomFromTable();
 };
 
 
