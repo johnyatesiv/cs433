@@ -29,15 +29,15 @@ PCB* TableEntry::getValue() {
 } 
 
 /**
- * Purpose: Constructor for HashMap
+ * Purpose: Constructor for PCBTable
  */
-PCBTable::PCBTable() { 
-    table = new TableEntry*[TABLE_SIZE];
-    for (int i = 0; i < TABLE_SIZE; i++) {
-        table[i] = NULL;
-    }
-
+PCBTable::PCBTable() {
+    this->table = new TableEntry*[TABLE_SIZE];
     this->Size = 0;
+    
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        this->table[i] = NULL;
+    }
 }
 
 /**
@@ -59,7 +59,7 @@ PCBTable::~PCBTable() {
  * @return 
  */
 PCB* PCBTable::get(int key) { 
-    int hash = (key % TABLE_SIZE); 
+    int hash = (key % TABLE_SIZE);
     while (table[hash] != NULL && table[hash]->getKey() != key) {
         hash = (hash + 1) % TABLE_SIZE;
     }
@@ -77,10 +77,13 @@ PCB* PCBTable::get(int key) {
  * @param key
  * @param value
  */
-void PCBTable::put(int key, PCB* value) { 
-    cout << "Putting" << endl;
+void PCBTable::put(int key, PCB* value) {
     int hash = (key % TABLE_SIZE);
-    while (table[hash] != NULL && table[hash]->getKey() != key) {
+    
+    cout << "Putting: " << this->Size << " " << hash << endl;
+    cout << this->table[1] << endl;
+    
+    while(table[hash] != NULL && table[hash]->getKey() != key) {
         hash = (hash + 1) % TABLE_SIZE;
     }
 
@@ -89,10 +92,15 @@ void PCBTable::put(int key, PCB* value) {
     }
 
     table[hash] = new TableEntry(key, value);
+    
+    //this->keys[key] = hash;
     this->Size++;
     cout << "Finished putting: " << this->Size << endl;
 }
 
+/*
+ * 
+ */
 PCB* PCBTable::remove(int id) {
     PCB* removed = table[id]->getValue();
     table[id] = NULL;
@@ -110,13 +118,17 @@ void PCBTable::print() {
 
 PCB* PCBTable::getRandom() {
     int randIndex;
+    int hash;
 
     srand(time(NULL));
     randIndex = (rand() % (this->Size));
+    
+    hash = (randIndex % TABLE_SIZE);
 
-    if(table[randIndex] == NULL) {
-        cout << "Random index " << randIndex << " accessed a null element." << endl;
+    if(table[hash] == NULL) {
+        cout << "Random index " << hash << " accessed a null element." << endl;
+        throw new PCBTable::NullIndexException;
+    } else {
+        return table[hash]->getValue();   
     }
-
-    return table[randIndex]->getValue();
 }

@@ -40,6 +40,8 @@ int main(int argc, char* argv[]) {
         handler->add(pid8);
         handler->add(pid11);
         
+        printf("Segfault?");
+        
         printf("Showing Table.");
         
         handler->showTable();
@@ -80,7 +82,7 @@ int main(int argc, char* argv[]) {
         /* Select 10 random PCB objects from the existing Handler's table and reassign a random priority between 1 and 50 */
         
         int i = 0;
-        int max = 100;
+        int max = 1000000;
         
         /* Benchmark start */
 //        struct timeval start;
@@ -108,12 +110,10 @@ int main(int argc, char* argv[]) {
             /* Random 50/50 chance to either */
             if(randomChance < 0.5) {
                 /* Remove a process */
-                printf("Removing a process.\n");
+                //printf("Removing a process.\n");
                 
                 if(!handler->Queue.isEmpty()) {
-                    printf("Post empty check");
                     handler->Queue.removeHighestProc(removed);
-                    printf("Post remove");
                 }
             } else {
                 //printf("HERE");
@@ -121,11 +121,7 @@ int main(int argc, char* argv[]) {
                 printf("Adding a process from table.\n");
                 randomEl = handler->randomFromTable();
                 
-                printf("Segfault2?");
-                
                 randomEl->print();
-                
-                printf("Segfault2?");
                 
                 if(!handler->Queue.isInQueue(randomEl->id)) {
                     /* Before inserting, randomize its priority between 1 and 50 */

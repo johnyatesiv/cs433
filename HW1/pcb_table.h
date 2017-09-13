@@ -20,12 +20,10 @@ class TableEntry {
 
 class PCBTable {
     public:
+        int Size;
         PCBTable();
         PCBTable(const PCBTable& orig);
         virtual ~PCBTable();
-
-        int Size;
-
         void put(int id, PCB* value);
         PCB* get(int id);
         void print();
@@ -33,7 +31,7 @@ class PCBTable {
         PCB* remove(int id);
 
         class NullIndexException{};
-    private:
         TableEntry **table;
+    private:
 };
 

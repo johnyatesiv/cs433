@@ -32,9 +32,9 @@ PCBHandler::~PCBHandler() { // destructor to destroy all nodes
  */
 void PCBHandler::add(PCB *proc) {
     // Add to Queue
-    Queue.insertProc(proc);
+    this->Queue.insertProc(proc);
     // Add to Table
-    Table.put(proc->id, proc);
+    this->Table.put(proc->id, proc);
 }
 
 /*
@@ -54,7 +54,7 @@ void PCBHandler::remove(int id) {
  * Finds and returns an element at the specified index in the table.
  */
 PCB* PCBHandler::get(int id) {
-    return Table.get(id);
+    return this->Table.get(id);
     // iterate over procs in table and return id match
 }
 
@@ -65,8 +65,8 @@ PCB* PCBHandler::get(int id) {
  * 
  */
 bool PCBHandler::queueEmpty() {
-    cout << "is Empty? " << Queue.isEmpty() << endl;
-    return Queue.isEmpty();
+    //cout << "is Empty? " << this->Queue.isEmpty() << endl;
+    return this->Queue.isEmpty();
 }
 
 /*
