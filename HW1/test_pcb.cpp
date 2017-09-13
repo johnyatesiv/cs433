@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
         
         
         while(i != max) {
-            printf("Iteration ");
+            printf("\nIteration ");
             printf("%i", i);
             printf(": ");
             
@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
             /* Random 50/50 chance to either */
             if(randomChance < 0.5) {
                 /* Remove a process */
-                //printf("Removing a process.\n");
+                printf("Removing a process from Queue.\n");
                 
                 if(!handler->Queue.isEmpty()) {
                     handler->Queue.removeHighestProc(removed);
@@ -125,6 +125,7 @@ int main(int argc, char* argv[]) {
                 
                 if(!handler->Queue.isInQueue(randomEl->id)) {
                     /* Before inserting, randomize its priority between 1 and 50 */
+                    printf("Not in Queue, inserting.\n");
                     //randomEl->priority
                     handler->Queue.insertProc(randomEl);
                 }
@@ -142,6 +143,8 @@ int main(int argc, char* argv[]) {
         
         time_t end = time(0);
         double time = difftime(end, start) * 1000.0;
+        
+        handler->Queue.displayQueue();
         
         printf("Ran in ");
         printf("%f", time);
