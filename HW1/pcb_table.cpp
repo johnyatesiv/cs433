@@ -7,7 +7,7 @@
 // as well as retrieve them, remove them and iterate.
 //=======================================================
 
-#include<iostream>
+#include <iostream>
 #include <stdlib.h>
 #include <time.h>
 #include "pcb_table.h"
@@ -128,7 +128,10 @@ PCB* PCBTable::getRandom() {
     if(table[hash] == NULL) {
         cout << "Random index " << hash << " accessed a null element." << endl;
         //throw new PCBTable::NullIndexException;
-        return this->getRandom();
+        hash = ((randIndex+1) % TABLE_SIZE);
+        if(table[hash] == NULL) {
+            return this->getRandom();   
+        }
     } else {
         return table[hash]->getValue();   
     }

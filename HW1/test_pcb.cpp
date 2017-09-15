@@ -1,9 +1,10 @@
-#include <random>
+//#include <random>
 #include <stdio.h>
 #include "test.h"
 #include "pcb_handler.h"
 #include <stdio.h>      /* printf */
 #include <time.h>       /* time_t, struct tm, difftime, time, mktime */
+#include <stdlib.h>     /* srand, rand */
 
 int main(int argc, char* argv[]) {
 	printf("----CS 433 Assignment 1----\n");
@@ -92,9 +93,11 @@ int main(int argc, char* argv[]) {
         time_t start = time(0);
         
         /* From http://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution */
-        std::random_device rd;  //Will be used to obtain a seed for the random number engine
-        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-        std::uniform_real_distribution<> dis(0, 1);
+//        std::random_device rd;  //Will be used to obtain a seed for the random number engine
+//        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+//        std::uniform_real_distribution<> dis(0, 1);
+        
+        srand(time(NULL));
         
         double randomChance;
         PCB *randomEl;
@@ -105,10 +108,11 @@ int main(int argc, char* argv[]) {
             printf("%i", i);
             printf(": ");
             
-            randomChance = dis(gen);
+            //randomChance = dis(gen);
+            randomChance = rand() % 10;
             
             /* Random 50/50 chance to either */
-            if(randomChance < 0.5) {
+            if(randomChance < 5) {
                 /* Remove a process */
                 printf("Removing a process from Queue.\n");
                 
@@ -152,4 +156,3 @@ int main(int argc, char* argv[]) {
         
 	return 0;
 }
-
