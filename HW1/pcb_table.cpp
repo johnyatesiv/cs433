@@ -80,9 +80,6 @@ PCB* PCBTable::get(int key) {
 void PCBTable::put(int key, PCB* value) {
     int hash = (key % TABLE_SIZE);
     
-    cout << "Putting: " << this->Size << " " << hash << endl;
-    cout << this->table[1] << endl;
-    
     while(table[hash] != NULL && table[hash]->getKey() != key) {
         hash = (hash + 1) % TABLE_SIZE;
     }
@@ -95,7 +92,7 @@ void PCBTable::put(int key, PCB* value) {
     
     //this->keys[key] = hash;
     this->Size++;
-    cout << "Finished putting: " << this->Size << endl;
+    //cout << "Finished putting: " << this->Size << endl;
 }
 
 /*
@@ -121,18 +118,22 @@ PCB* PCBTable::getRandom() {
     int hash;
 
     srand(time(NULL));
-    randIndex = (rand() % (this->Size)) + 1;
-    
+    randIndex = ((rand()+1) % (this->Size));
+
     hash = (randIndex % TABLE_SIZE);
+    
+    if(hash > 128) {
+        cout << "BAD HASH" << endl;
+    }
 
     if(table[hash] == NULL) {
-        cout << "Random index " << hash << " accessed a null element." << endl;
+//        cout << "Random index " << hash << " accessed a null element." << endl;
         //throw new PCBTable::NullIndexException;
-//        hash = ((randIndex) % TABLE_SIZE);
-//        if(table[hash] == NULL) {
-            return this->getRandom();   
-        //}
+        hash = ((randIndex + 1) % TABLE_SIZE);
+        if(table[hash] == NULL) {
+            return this->getRandom(); 
+        }
     } else {
-        return table[hash]->getValue();   
+        return table[hash]->getValue();
     }
 }

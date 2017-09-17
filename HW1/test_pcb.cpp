@@ -5,6 +5,7 @@
 #include <stdio.h>      /* printf */
 #include <time.h>       /* time_t, struct tm, difftime, time, mktime */
 #include <stdlib.h>     /* srand, rand */
+#include <sys/time.h>   /* gettimeofday */
 
 int main(int argc, char* argv[]) {
 	printf("----CS 433 Assignment 1----\n");
@@ -41,10 +42,6 @@ int main(int argc, char* argv[]) {
         handler->add(pid8);
         handler->add(pid11);
         
-        printf("Segfault?");
-        
-        printf("Showing Table.");
-        
         handler->showTable();
         
         /* Display Queue, should be ordered 1, 5, 8, 11 */
@@ -69,35 +66,29 @@ int main(int argc, char* argv[]) {
         /* Redisplay, should be ordered 2, 3, 5, 7, 8, 9, 11, 12 */
         handler->Queue.displayQueue();
         
-        printf("Hello I am here.\n");
-        
         /* Iterate over the remaining processes and display each time */
         while(!handler->Queue.isEmpty()) {
             handler->Queue.removeHighestProc(removed);
             handler->Queue.displayQueue();
         }
         
+        printf("Queue empty, starting Test 2.\n");
         
         /* Test 2 */
         
         /* Select 10 random PCB objects from the existing Handler's table and reassign a random priority between 1 and 50 */
         
         int i = 0;
-        int max = 1000000;
+        int max = 1000000; //target iterations
+        srand(time(NULL)); //seed the random number generator
+        double randomChance; // double for holding the chance for each iteration
+        int randomPriority; // for random priority on insertion
+        PCB *randomEl; //for holding PCBs from the table
         
         /* Benchmark start */
-//        struct timeval start;
-//        struct timeval end;
-
-        //gettimeofday(&start, NULL);
-        time_t start = time(0);
-        
-        
-        srand(time(NULL));
-        
-        double randomChance;
-        int randomPriority;
-        PCB *randomEl;
+        //time_t start = time(NULL);
+        struct timeval start, end;
+        gettimeofday(&start, NULL);
         
         
         while(i != max) {
@@ -111,7 +102,7 @@ int main(int argc, char* argv[]) {
             /* Random 50/50 chance to either */
             if(randomChance < 5) {
                 /* Remove a process */
-//                printf("Removing a process from Queue.\n");
+                printf("Removing a process from Queue.\n");
                 
                 if(!handler->Queue.isEmpty()) {
                     handler->Queue.removeHighestProc(removed);
@@ -119,10 +110,10 @@ int main(int argc, char* argv[]) {
             } else {
                 //printf("HERE");
                 /* If there is a process in the table READY state not in the queue, insert it */
-//                printf("Adding a process from table.\n");
+                //printf("Adding a process from table.\n");
                 randomEl = handler->randomFromTable();
                 randomPriority = (rand() % 50)+1;
-                //randomEl->setPriority(randomPriority);
+                randomEl->setPriority(randomPriority);
                 //randomEl->print();
 //                printf("%f", randomChance);
 //                printf("\n");
@@ -131,9 +122,7 @@ int main(int argc, char* argv[]) {
                 
                 if(!handler->Queue.isInQueue(randomEl->id)) {
                     /* Before inserting, randomize its priority between 1 and 50 */
-                    //printf("Not in Queue, inserting.\n");
-                    //randomEl->priority
-                    
+                    printf("Not in Queue, inserting.\n");
                     handler->Queue.insertProc(randomEl);
                 }
 
@@ -144,18 +133,16 @@ int main(int argc, char* argv[]) {
         }
         
         /* Benchmark finish */
-//        gettimeofday(&end, NULL);
-//        
-        //uint64 time2 = start.tv_usec - end.tv_usec;
         
-        time_t end = time(0);
-        double time = difftime(end, start);
+        gettimeofday(&end, NULL);
         
+        printf("Execution time: %ld microseconds\n",
+            ((end.tv_sec - start.tv_sec)*1000000L
+           +end.tv_usec) - start.tv_usec
+          );
+        
+        printf("Finished Test 2, displaying queue.\n");
         handler->Queue.displayQueue();
-        
-        printf("Ran in ");
-        printf("%f", time);
-        printf(" microseconds.");
         
 	return 0;
 }
