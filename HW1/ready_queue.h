@@ -10,6 +10,9 @@
 
 #include "pcb.h"
 
+#ifndef QUEUE_H
+#define QUEUE_H
+
 class ReadyQueue {
   
  private:
@@ -40,3 +43,5 @@ class ReadyQueue {
     
     bool isInQueue(int id);
 };
+
+#endif

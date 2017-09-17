@@ -5,6 +5,8 @@
 // This file is the header for the PCBTable class, which is a hash table for holding
 // PCBs currently being handled by the OS.
 //=======================================================
+#ifndef TABLE_H
+#define TABLE_H
 
 #include "pcb.h"
 
@@ -34,4 +36,6 @@ class PCBTable {
         TableEntry **table;
     private:
 };
+
+#endif
 

@@ -10,6 +10,9 @@
 //=======================================================
 
 using namespace std;
+#ifndef HANDLER_H
+#define HANDLER_H
+
 #include "ready_queue.h"
 #include "pcb_table.h"
 
@@ -61,4 +64,4 @@ class PCBHandler {
     PCB* randomFromTable();
 };
 
-
+#endif

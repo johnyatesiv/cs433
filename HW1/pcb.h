@@ -5,6 +5,8 @@
 // This file is the header file for the PCB class, which represents a Process in the OS.
 // It contains descriptive variables as well as a method to print itself.
 //=======================================================
+#ifndef PCB_H
+#define PCB_H
 
 typedef int el_t ;  // elements will be **
 
@@ -23,3 +25,4 @@ class PCB {
     private:
 };
 
+#endif
