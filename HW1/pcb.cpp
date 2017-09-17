@@ -47,3 +47,7 @@ void PCB::print() {
 int PCB::getPriority() {
     return this->priority;
 }
+
+void PCB::setPriority(int pri) {
+    this->priority = pri;
+}

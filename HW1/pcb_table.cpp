@@ -128,10 +128,10 @@ PCB* PCBTable::getRandom() {
     if(table[hash] == NULL) {
         cout << "Random index " << hash << " accessed a null element." << endl;
         //throw new PCBTable::NullIndexException;
-        hash = ((randIndex+1) % TABLE_SIZE);
-        if(table[hash] == NULL) {
+//        hash = ((randIndex) % TABLE_SIZE);
+//        if(table[hash] == NULL) {
             return this->getRandom();   
-        }
+        //}
     } else {
         return table[hash]->getValue();   
     }

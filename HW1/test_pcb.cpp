@@ -88,33 +88,30 @@ int main(int argc, char* argv[]) {
         /* Benchmark start */
 //        struct timeval start;
 //        struct timeval end;
-//
-//        gettimeofday(&start, NULL);
+
+        //gettimeofday(&start, NULL);
         time_t start = time(0);
         
-        /* From http://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution */
-//        std::random_device rd;  //Will be used to obtain a seed for the random number engine
-//        std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-//        std::uniform_real_distribution<> dis(0, 1);
         
         srand(time(NULL));
         
         double randomChance;
+        int randomPriority;
         PCB *randomEl;
         
         
         while(i != max) {
-            printf("\nIteration ");
-            printf("%i", i);
-            printf(": ");
+//            printf("\nIteration ");
+//            printf("%i", i);
+//            printf(": ");
             
             //randomChance = dis(gen);
-            randomChance = rand() % 10;
+            randomChance = (rand() % 10);
             
             /* Random 50/50 chance to either */
             if(randomChance < 5) {
                 /* Remove a process */
-                printf("Removing a process from Queue.\n");
+//                printf("Removing a process from Queue.\n");
                 
                 if(!handler->Queue.isEmpty()) {
                     handler->Queue.removeHighestProc(removed);
@@ -122,15 +119,21 @@ int main(int argc, char* argv[]) {
             } else {
                 //printf("HERE");
                 /* If there is a process in the table READY state not in the queue, insert it */
-                printf("Adding a process from table.\n");
+//                printf("Adding a process from table.\n");
                 randomEl = handler->randomFromTable();
-                
-                randomEl->print();
+                randomPriority = (rand() % 50)+1;
+                //randomEl->setPriority(randomPriority);
+                //randomEl->print();
+//                printf("%f", randomChance);
+//                printf("\n");
+//                printf("%i", randomPriority);
+//                printf("\n");
                 
                 if(!handler->Queue.isInQueue(randomEl->id)) {
                     /* Before inserting, randomize its priority between 1 and 50 */
-                    printf("Not in Queue, inserting.\n");
+                    //printf("Not in Queue, inserting.\n");
                     //randomEl->priority
+                    
                     handler->Queue.insertProc(randomEl);
                 }
 
@@ -143,16 +146,16 @@ int main(int argc, char* argv[]) {
         /* Benchmark finish */
 //        gettimeofday(&end, NULL);
 //        
-//        uint64 time = start.tv_usec - end.tv_usec;
+        //uint64 time2 = start.tv_usec - end.tv_usec;
         
         time_t end = time(0);
-        double time = difftime(end, start) * 1000.0;
+        double time = difftime(end, start);
         
         handler->Queue.displayQueue();
         
         printf("Ran in ");
         printf("%f", time);
-        printf("microseconds.");
+        printf(" microseconds.");
         
 	return 0;
 }

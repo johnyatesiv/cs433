@@ -18,6 +18,7 @@ class PCB {
         PCB *Next;  // next is the pointer to the next node
         void print();
         int getPriority();
+        void setPriority(int pri);
         int id;
         int state; //0 - Running, 1 - Waiting, 2 - Stopped, 3 - Pending Cleanup
         int programCounter;
