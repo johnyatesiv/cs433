@@ -102,7 +102,7 @@ int main(int argc, char* argv[]) {
             /* Random 50/50 chance to either */
             if(randomChance < 5) {
                 /* Remove a process */
-                printf("Removing a process from Queue.\n");
+                //printf("Removing a process from Queue.\n");
                 
                 if(!handler->Queue.isEmpty()) {
                     handler->Queue.removeHighestProc(removed);
@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
                 
                 if(!handler->Queue.isInQueue(randomEl->id)) {
                     /* Before inserting, randomize its priority between 1 and 50 */
-                    printf("Not in Queue, inserting.\n");
+                    //printf("Not in Queue, inserting.\n");
                     handler->Queue.insertProc(randomEl);
                 }
 
