@@ -6,7 +6,7 @@
 // PCBs currently being handled by the OS.
 //=======================================================
 
-//#include "pcb.h"
+#include "pcb.h"
 
 class TableEntry { 
     private: 
