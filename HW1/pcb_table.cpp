@@ -135,6 +135,8 @@ PCB* PCBTable::getRandom() {
             hash = (randIndex % TABLE_SIZE);
         }
         
+        return table[hash]->getValue();
+        
 //        hash = ((randIndex + 1) % TABLE_SIZE);
 //        if(table[hash] == NULL) {
 //            return this->getRandom(); 
