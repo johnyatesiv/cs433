@@ -13,6 +13,7 @@
 
 #include <cstdlib>
 #include <stdio.h>
+#include <iostream> //no need to have two IO deps, refactor
 #include <unistd.h>
 using namespace std;
 
@@ -22,19 +23,20 @@ using namespace std;
  *
  */
 
-const char *EXIT = "exit";
+char *EXIT = "exit";
 
 int main(void) {
     char *args[MAX_LINE/2 + 1]; /* command line arguments */
-    pid_t pid;
-    pid_t childPid;
-    int childStatus;
+    pid_t pid; /* this processes PID */
+    pid_t childPid; /* the PID of the child process */
+    int childStatus; /* the status of the child process */
+    char * pch; /* Holder to check arguments */
     int shouldRun = 1; /* flag to determine when to exit program */
     
     while(shouldRun) {
-        if ((pid = fork()) == -1) { // system functions also set a variable called "errno"
-            perror("fork"); // this function automatically checks "errno" and prints the error plus what you give it
-            return EXIT_FAILURE;
+        if((pid = fork()) == -1) { // system functions also set a variable called "errno"
+           perror("fork"); // this function automatically checks "errno" and prints the error plus what you give it
+           return EXIT_FAILURE;
         }
         
         printf("osh>");
@@ -45,6 +47,8 @@ int main(void) {
          */
 
         getline(cin, args);
+        
+        cout << args << endl;
         
         /* 
          * 2. Determine whether to exit
@@ -58,14 +62,14 @@ int main(void) {
             /* 
              * 3. If not exiting, fork a child process with fork();
              */
-            child_pid = fork();
-            if(child_pid == 0) {
+            childPid = fork();
+            if(childPid == 0) {
                 
              /* 
              * 4. Child process invokes execvp()
              */
 
-              execvp(argv[0], argv);
+              execvp(args[0], args);
 
               /* If execvp returns, it must have failed. */
 
@@ -77,7 +81,8 @@ int main(void) {
               /*
                *  5. Parent process invokes wait() if the command included &
                */
-
+               pid_t tpid;
+               
                while(tpid != childPid) {
                     pid_t tpid = wait(&childStatus);
                     if(tpid != childPid) {
@@ -88,15 +93,13 @@ int main(void) {
                return childStatus;
             }
 
-            execvp(args);
+            execvp(args[0], args);
 
             /* Search the char array for & to determine whether to wait() */
-            pch=strchr(str,'&');
-            while(pch!=NULL) {
-                pch=strchr(pch+1,'&');
-                wait();
-                break;
-            }
+//            pch=strchr(str,'&');
+//            while(pch!=NULL) {
+//                pch=strchr(pch+1,'&');
+//            }
         }
     }
     

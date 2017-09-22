@@ -6,8 +6,8 @@ CC = g++			# use g++ for compiling c++ code or gcc for c code
 CFLAGS = -O -Wall		# compilation flags: -g for debugging. Change to -O or -O2 for optimized code.
 LIB = -lm			# linked libraries	
 LDFLAGS = -L.			# link flags
-PROG = mytest			# target executable (output)
-SRC = pcb_handler.cpp ready_queue.cpp pcb.cpp pcb_table.cpp test_pcb.cpp      # .c or .cpp source files.
+PROG = shelltest		# target executable (output)
+SRC = shell.cpp		        # .c or .cpp source files.
 OBJ = $(SRC:.cpp=.o) 	# object files for the target. Add more to this and next lines if there are more than one source files.
 
 all : $(PROG)
