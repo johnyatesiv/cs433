@@ -12,9 +12,9 @@
  */
 
 #include <cstdlib>
-#include <stdio.h>
-#include <iostream> //no need to have two IO deps, refactor
+#include <iostream>
 #include <unistd.h>
+#include <sys/wait.h>
 using namespace std;
 
 #define MAX_LINE 80
@@ -23,7 +23,8 @@ using namespace std;
  *
  */
 
-string EXIT = "exit";
+string EXIT = "exit"; // exit command
+string NOWAIT = "&"; // signal to not wait and run the next command
 
 int main(void) {
     string command;
@@ -31,8 +32,8 @@ int main(void) {
     pid_t pid; /* this processes PID */
     pid_t childPid; /* the PID of the child process */
     int childStatus; /* the status of the child process */
-    char *pch; /* Holder to check arguments */
     int shouldRun = 1; /* flag to determine when to exit program */
+    int status; /* wait status */
     
     while(shouldRun) {
 //        if((pid = fork()) == -1) { // system functions also set a variable called "errno"
@@ -72,7 +73,7 @@ int main(void) {
              * 4. Child process invokes execvp()
              */
 
-              execvp(args[0], args);
+              execvp(args, args);
 
               /* If execvp returns, it must have failed. */
 
@@ -95,14 +96,20 @@ int main(void) {
 
                  return childStatus;
             }
+            
+            if (execvp(*argv, argv) < 0) {     /* execute the command  */
+               printf("*** ERROR: exec failed\n");
+               exit(1);
+            }
 
             execvp(args[0], args);
 
-            /* Search the char array for & to determine whether to wait() */
-//            pch=strchr(str,'&');
-//            while(pch!=NULL) {
-//                pch=strchr(pch+1,'&');
-//            }
+            size_t found;
+            /* Search the string for & to determine whether to wait() */
+            found = command.find(NOWAIT);
+            if(found == string::npos) {
+                wait(&status);
+            }
         }
     }
     
