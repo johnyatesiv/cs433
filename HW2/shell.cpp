@@ -23,21 +23,22 @@ using namespace std;
  *
  */
 
-char *EXIT = "exit";
+string EXIT = "exit";
 
 int main(void) {
+    string command;
     char *args[MAX_LINE/2 + 1]; /* command line arguments */
     pid_t pid; /* this processes PID */
     pid_t childPid; /* the PID of the child process */
     int childStatus; /* the status of the child process */
-    char * pch; /* Holder to check arguments */
+    char *pch; /* Holder to check arguments */
     int shouldRun = 1; /* flag to determine when to exit program */
     
     while(shouldRun) {
-        if((pid = fork()) == -1) { // system functions also set a variable called "errno"
-           perror("fork"); // this function automatically checks "errno" and prints the error plus what you give it
-           return EXIT_FAILURE;
-        }
+//        if((pid = fork()) == -1) { // system functions also set a variable called "errno"
+//           perror("fork"); // this function automatically checks "errno" and prints the error plus what you give it
+//           return EXIT_FAILURE;
+//        }
         
         printf("osh>");
         fflush(stdout);
@@ -46,16 +47,18 @@ int main(void) {
          * 1. Read user input
          */
 
-        getline(cin, args);
+        getline(cin, command);
         
-        cout << args << endl;
+        
+        cout << command << endl;
         
         /* 
          * 2. Determine whether to exit
          */
 
-        if(args == EXIT) {
+        if(command == EXIT) {
             shouldRun = 0;
+            break;
         } else {
             // parseCommand(cmd, argv); should write the command into argv and put a stopping point
             
@@ -78,19 +81,19 @@ int main(void) {
             }
 
             else {
-              /*
-               *  5. Parent process invokes wait() if the command included &
-               */
-               pid_t tpid;
-               
-               while(tpid != childPid) {
-                    pid_t tpid = wait(&childStatus);
-                    if(tpid != childPid) {
-                        process_terminated(tpid);
-                    }
-               }
+                /*
+                 *  5. Parent process invokes wait() if the command included &
+                 */
+                 pid_t tpid;
 
-               return childStatus;
+                 while(tpid != childPid) {
+                      pid_t tpid = wait(&childStatus);
+                      if(tpid != childPid) {
+                          //process_terminated(tpid);
+                      }
+                 }
+
+                 return childStatus;
             }
 
             execvp(args[0], args);
