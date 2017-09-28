@@ -26,7 +26,7 @@ using namespace std;
 string EXIT = "exit"; // exit command
 string NOWAIT = "&"; // signal to not wait and run the next command
 
-int main(void) {
+int main(int argc, char **argv) {
     string command;
     char *args[MAX_LINE/2 + 1]; /* command line arguments */
     pid_t pid; /* this processes PID */
@@ -50,7 +50,6 @@ int main(void) {
 
         getline(cin, command);
         
-        
         cout << command << endl;
         
         /* 
@@ -67,48 +66,47 @@ int main(void) {
              * 3. If not exiting, fork a child process with fork();
              */
             childPid = fork();
+            
+            if(childPid == -1) {
+                printf("Fork failed!\n");
+                exit(0);
+            }
+            
             if(childPid == 0) {
                 
-             /* 
-             * 4. Child process invokes execvp()
-             */
-
-              execvp(args, args);
+                /* 
+                * 4. Child process invokes execvp()
+                */
+                const char *args = command.c_str();
+                if(execvp(args, argv) < 0) {     /* execute the command  */
+                    printf("*** ERROR: exec failed\n");
+                    exit(1);
+                }
 
               /* If execvp returns, it must have failed. */
 
               printf("Could not execute command!\n");
               exit(0);
-            }
-
-            else {
+            } else {
                 /*
                  *  5. Parent process invokes wait() if the command included &
                  */
-                 pid_t tpid;
-
-                 while(tpid != childPid) {
-                      pid_t tpid = wait(&childStatus);
-                      if(tpid != childPid) {
-                          //process_terminated(tpid);
-                      }
-                 }
-
-                 return childStatus;
-            }
-            
-            if (execvp(*argv, argv) < 0) {     /* execute the command  */
-               printf("*** ERROR: exec failed\n");
-               exit(1);
-            }
-
-            execvp(args[0], args);
-
-            size_t found;
-            /* Search the string for & to determine whether to wait() */
-            found = command.find(NOWAIT);
-            if(found == string::npos) {
-                wait(&status);
+//                 pid_t tpid;
+//
+//                 while(tpid != childPid) {
+//                      pid_t tpid = wait(&childStatus);
+//                      if(tpid != childPid) {
+//                          //process_terminated(tpid);
+//                      }
+//                 }
+//
+//                 return childStatus;
+                size_t found;
+                /* Search the string for & to determine whether to wait() */
+                found = command.find(NOWAIT);
+                if(found == string::npos) {
+                    wait(&status);
+                }
             }
         }
     }
