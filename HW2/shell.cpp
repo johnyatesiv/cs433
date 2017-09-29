@@ -50,13 +50,14 @@ int main(int argc, char **argv) {
 
         getline(cin, command);
         
-        cout << command << endl;
+        //cout << command << endl;
         
         /* 
          * 2. Determine whether to exit
          */
 
         if(command == EXIT) {
+            printf("Exiting...\n");
             shouldRun = 0;
             break;
         } else {
@@ -85,8 +86,8 @@ int main(int argc, char **argv) {
 
               /* If execvp returns, it must have failed. */
 
-              printf("Could not execute command!\n");
-              exit(0);
+//              printf("Could not execute command!\n");
+//              exit(0);
             } else {
                 /*
                  *  5. Parent process invokes wait() if the command included &
