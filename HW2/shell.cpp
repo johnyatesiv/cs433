@@ -77,7 +77,7 @@ void showHistory() {
 }
 
 int formatCommand(char command[], char *args[], int *flag) {
-    /* length is number of characters in command 
+    /* length is number of characters in command
      * i is a looping index
      * start is the index of the next command
      */
@@ -95,7 +95,7 @@ int formatCommand(char command[], char *args[], int *flag) {
     }
 
     if(length < 0) {
-        printf("Command not read\n");
+        printf("ERROR: Command not read.\n");
         exit(-1);  //terminate
     }
     
@@ -123,7 +123,7 @@ int formatCommand(char command[], char *args[], int *flag) {
             }
             
             if(command[i] == '&') {
-                *flag  = 1; //this flag is the differentiate whether the child process is invoked in background
+                *flag = 1; //this flag is the differentiate whether the child process is invoked in background
                 command[i] = '\0';
             }
         }
@@ -142,17 +142,16 @@ int formatCommand(char command[], char *args[], int *flag) {
             int y = args[0][2]- '0'; 
 
             if(x > historyCount) {//second letter check
-                printf("%i", historyCount);
-                printf("Index outside of history bound.\n");
+                printf("ERROR: Index outside of history bound.\n");
                 return -1;
             } else if(y != -48) { //third letter check
-                printf("Command not found in history.\n");
+                printf("ERROR: Command not found in history.\n");
                 return -1;
             } else {
                 if(x == -15) { /*Check for '!!' */
                     strcpy(command, history[0]);  /* Most recent command */
                 } else if(x == 0) { //Checking for '!0'
-                    printf("Invalid command.\n");
+                    printf("ERROR: Invalid command.\n");
                     return -1;
                 } else if(x >= 1) { /* Checking for !n where 9 >= n >=1 */
                     strcpy(command, history[(historyCount-x)]);
@@ -178,7 +177,7 @@ int main(void) {
     while(shouldRun) { /* Loop prompt forever */
         flag = 0; /* Wait flag */
         
-        printf("osh>"); /* Print shell prompt */
+        printf("osh> "); /* Print shell prompt */
         fflush(stdout); /* Flush stream */
         
         if(formatCommand(command, args, &flag) > -1) {
@@ -186,7 +185,7 @@ int main(void) {
         
         	if(pid < 0) {
                     /* PID less than zero indicates failed fork */
-                    printf("Failed to fork.\n");
+                    printf("ERROR: Failed to fork.\n");
                     exit(1);
         	} else if(pid == 0) {
                     //command not executed
@@ -197,7 +196,16 @@ int main(void) {
        		} else {
                     /* If the wait flag is 0, wait. */
                     if(flag == 0) {
-                        wait(NULL);
+                        int status;
+                        do {
+                            wait(&status);
+                            if(status == -1 && errno != ECHILD) {
+                                perror("Error during wait()");
+                                abort();
+                            } else if (WIFEXITED(status)) {
+                                status = 0;
+                            }
+                        } while (status > 0);
                     }
         	}
    	 } else {
