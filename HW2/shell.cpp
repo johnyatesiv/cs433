@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
+
 using namespace std;
 
 #define MAX_LINE 80 // max line length
@@ -199,12 +200,12 @@ int main(void) {
                         int status;
                         do {
                             wait(&status);
-                            if(status == -1 && errno != ECHILD) {
-                                perror("Error during wait()");
-                                abort();
-                            } else if (WIFEXITED(status)) {
-                                status = 0;
-                            }
+//                            if(status == -1 && errno != ECHILD) {
+//                                perror("Error during wait()");
+//                                abort();
+//                            } else if (WIFEXITED(status)) {
+//                                status = 0;
+//                            }
                         } while (status > 0);
                     }
         	}
