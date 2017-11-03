@@ -29,7 +29,7 @@ public:
         }
     };
     
-    priority_queue<Process, vector<Process>, LowerRemainingTime> processQueue;
+    priority_queue<Process*, vector<Process*>, LowerRemainingTime> processQueue;
 private:
 
 };
