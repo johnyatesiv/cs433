@@ -53,11 +53,7 @@ void Scheduler::handleProcArrival(Event* e) {
 //    printf("%i", e->processId);
 //    printf(" Arrived!\n");
     
-    this->printProcessTable();
-    
     this->process = this->processTable[e->processId]; //proc = e.procId
-
-    //this->process->print();
     this->process->nextCPUBurst(); //generate length of next CPU burst
     this->processQueue.push(this->process); //add proc to ready queue
     this->schedule(); //invoke schedule();

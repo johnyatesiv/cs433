@@ -30,13 +30,13 @@ int main(int argc, char** argv) {
     // pass arguments to get different scheduling algorithms, instantiate appropriate scheduler
     FCFSScheduler scheduler;
     
-    if(argv[1] == "fcfs") {
+    if(string(argv[1]) == "fcfs") {
         printf("Using the FCFS algorithm!");
         FCFSScheduler scheduler;
-    } else if(argv[2] == "sjf") {
+    } else if(string(argv[1]) == "sjf") {
         printf("Using the SJF algorithm!");
         SJFScheduler scheduler;
-    } else if(argv[3] == "srtf") {
+    } else if(string(argv[1]) == "srtf") {
         printf("Using the SRTF algorithm!");
         SRTFScheduler scheduler;
     } else {
@@ -44,14 +44,11 @@ int main(int argc, char** argv) {
         FCFSScheduler scheduler;
     }
     
-    srand(time(NULL)); // seed random function
-    
     //int run = false; //Loop flag
     int clock = 0; //Clock counter
-    int pastClock = 0;
     int endClock = 300001;
     
-    // generate some events
+    // generate some process arrival events
     for(int i = 0; i < 20; i++) {
         /* Instantiate a Process Arrival Event */
         Event* rEvent = new Event();
@@ -70,16 +67,13 @@ int main(int argc, char** argv) {
         /* Get the next Event in EventQueue */
         //printf("\nFetching Event...");
         e = scheduler.eventQueue.top();
-        e->print();
+        //e->print();
         /* Set the Clock to the Event Arrival Time */
-        printf("Updating clock from %i ", clock);
-        printf("to %i", e->arrived);
+        //printf("Updating clock from %i ", clock);
+        //printf("to %i", e->arrived);
         clock = e->arrived;
         scheduler.clock = clock;
-        if(clock != pastClock) {
-            printf("\nClock: %i", clock);
-            pastClock = clock;
-        }
+        
         /* Handle the next Event */
         scheduler.handleEvent(e);
 //        printf("\nEventQ size: ");

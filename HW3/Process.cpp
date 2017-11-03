@@ -57,18 +57,18 @@ void Process::adjustCPUTime() {
         this->cpuTime = 0;
     }
     
-    printf(" = %i", this->cpuTime);
+    //printf(" = %i", this->cpuTime);
 }
 
 void Process::adjustCPUTime(int burst) {
-    printf("\nAdjusting CPU time %i ", this->cpuTime);
-    printf(" - %i ", burst);
+    //printf("\nAdjusting CPU time %i ", this->cpuTime);
+    //printf(" - %i ", burst);
     this->cpuTime = this->cpuTime - burst;
     if(this->cpuTime < 0) {
         this->cpuTime = 0;
     }
     
-    printf(" = %i", this->cpuTime);
+    //printf(" = %i", this->cpuTime);
 }
 
 int Process::turnAroundTime() {

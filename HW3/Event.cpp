@@ -19,7 +19,7 @@ Event::Event() {
     this->type = 1;
     this->arrived = ranInt(0, 300000);
     this->processId = ranInt(0, 9999);
-    printf("\nProcess Arrival Event created! PID: %i", this->processId);
+    //printf("\nProcess Arrival Event created! PID: %i", this->processId);
 }
 
 /* Constructor for other Event Types */
@@ -39,7 +39,7 @@ Event::~Event() {
 }
 
 void Event::print() {
-    //printf("\nType: %i Event", this->type);
-    //printf("\nPID: %i", this->processId);
-    //printf("\nArrived: %i", this->arrived);
+    printf("\nType: %i Event", this->type);
+    printf("\nPID: %i", this->processId);
+    printf("\nArrived: %i", this->arrived);
 }
