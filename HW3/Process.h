@@ -32,9 +32,16 @@ public:
     int avgCpuBurst; //set at instantiation, between 5 and 100ms
     int priority; //used by queue
     int status; // ready, running, waiting or terminated
+    int finish;
+    int ioTime;
+    
+    int turnAroundTime();
+    int waitingTime();
     int nextCPUBurst(); //random, code for function provided on CC
     int IOBurst(); //random between 30 and 100ms
-    void print();
+    void adjustCPUTime(); // decrements the remaining cpu time by a random burst from nextCPUBurst()
+    void adjustCPUTime(int burst);
+    void print(); // prints object stats
 private:
 
 };

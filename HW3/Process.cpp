@@ -26,6 +26,7 @@ Process::Process(Event* e) {
     this->avgCpuBurst = ranInt(5, 100);
     this->priority = ranInt(1, 50);
     this->status = 1; //ready state
+    this->finish = -1;
 }
 
 Process::Process(Process* orig) {
@@ -42,7 +43,36 @@ int Process::nextCPUBurst() {
 }
 
 int Process::IOBurst() {
-    return ranInt(30, 100);
+    int io = ranInt(30, 100);
+    this->ioTime = this->ioTime + io;
+    return io;
+}
+
+void Process::adjustCPUTime() {
+    //printf("\nAdjusting CPU time %i ", this->cpuTime);
+    int next = this->nextCPUBurst();
+    //printf(" - %i ", next);
+    this->cpuTime = this->cpuTime - next;
+    if(this->cpuTime < 0) {
+        this->cpuTime = 0;
+    }
+    
+    printf(" = %i", this->cpuTime);
+}
+
+void Process::adjustCPUTime(int burst) {
+    printf("\nAdjusting CPU time %i ", this->cpuTime);
+    printf(" - %i ", burst);
+    this->cpuTime = this->cpuTime - burst;
+    if(this->cpuTime < 0) {
+        this->cpuTime = 0;
+    }
+    
+    printf(" = %i", this->cpuTime);
+}
+
+int Process::turnAroundTime() {
+    return this->finish - this->start;
 }
 
 void Process::print() {

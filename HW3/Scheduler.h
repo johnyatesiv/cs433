@@ -34,9 +34,11 @@ public:
     void handleTimerExpiration(Event* e);
     void schedule();
     void popProcQueue();
+    void printProcessTable();
   
     int CPUState;
     int preemptive;
+    int clock;
     Process* process;
     
     /* Priority field comparison */

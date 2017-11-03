@@ -22,7 +22,7 @@
 class Event {
 public:
     Event();
-    Event(int type);
+    Event(int type, int arrived, int burst, int pid);
     Event(Event* orig);
     virtual ~Event();
     void print();
@@ -40,6 +40,7 @@ public:
     bool burstComplete;
     bool ioComplete;
     int timer;
+    int burst; // The length of the burst to adjust the process timers by
 private:
 
 };
