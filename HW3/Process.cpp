@@ -27,6 +27,7 @@ Process::Process(Event* e) {
     this->priority = ranInt(1, 50);
     this->status = 1; //ready state
     this->finish = -1;
+    this->runTime = 0; //total running time tally
 }
 
 Process::Process(Process* orig) {
@@ -57,6 +58,8 @@ void Process::adjustCPUTime() {
         this->cpuTime = 0;
     }
     
+    this->runTime = this->runTime + next;
+    
     //printf(" = %i", this->cpuTime);
 }
 
@@ -68,11 +71,17 @@ void Process::adjustCPUTime(int burst) {
         this->cpuTime = 0;
     }
     
+    this->runTime = this->runTime + burst;
+    
     //printf(" = %i", this->cpuTime);
 }
 
 int Process::turnAroundTime() {
     return this->finish - this->start;
+}
+
+int Process::waitingTime() {
+    return this->turnAroundTime() - this->runTime;
 }
 
 void Process::print() {

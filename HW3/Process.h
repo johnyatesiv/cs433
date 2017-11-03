@@ -34,6 +34,7 @@ public:
     int status; // ready, running, waiting or terminated
     int finish;
     int ioTime;
+    int runTime;
     
     int turnAroundTime();
     int waitingTime();

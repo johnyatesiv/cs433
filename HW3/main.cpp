@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <unistd.h>
+#include <sstream>
 #include "Event.h"
 #include "FCFSScheduler.h"
 #include "SJFScheduler.h"
@@ -44,12 +45,19 @@ int main(int argc, char** argv) {
         FCFSScheduler scheduler;
     }
     
+    istringstream ss(argv[2]);
+    int processes;
+    if (!(ss >> processes)) {
+        cerr << "Invalid number " << argv[2] << '\n';
+        return 0;
+    }
+    
     //int run = false; //Loop flag
     int clock = 0; //Clock counter
     int endClock = 300001;
     
     // generate some process arrival events
-    for(int i = 0; i < 20; i++) {
+    for(int i = 0; i < processes; i++) {
         /* Instantiate a Process Arrival Event */
         Event* rEvent = new Event();
         /* Instantiate the process the event describes */
@@ -87,6 +95,7 @@ int main(int argc, char** argv) {
     
     int numProc = 0;
     int totalTime = 0;
+    int totalWait = 0;
     int temp = 0;
     
     for(auto it = scheduler.processTable.begin(); it != scheduler.processTable.end(); ++it) {
@@ -95,19 +104,30 @@ int main(int argc, char** argv) {
         printf("\nArrival Time: %i milliseconds", it->second->start);
         printf("\nFinish Time: %i milliseconds", it->second->finish);
         printf("\nIO Time: %i milliseconds", it->second->ioTime);
+        printf("\nWait Time: %i milliseconds", it->second->waitingTime());
         printf("\n");
         
         if(it->second->finish > 0) {
             temp = it->second->finish - it->second->start;
             totalTime = totalTime + temp;
+            temp = it->second->waitingTime();
+            totalWait = totalWait + temp;
             numProc++;
         }
     }
     
+    printf("Total wait: %i", totalWait);
+    
     int avgTurnAround = totalTime/numProc;
-    int throughput = numProc/endClock;
-    printf("\n\n\n\nAverage Turnaround Time: %i milliseconds", avgTurnAround);
-    printf("\nThroughput: %i jobs/millisecond\n", throughput);
+    int avgWait = totalWait/numProc;
+    int throughput = (numProc*100000)/endClock;
+    int cpuUtilization = (((endClock - avgWait)*100)/endClock);
+    
+    printf("\n\nJobs Completed: %i", numProc);
+    printf("\nAverage Turnaround Time: %i milliseconds", avgTurnAround);
+    printf("\nAverage Wait Time: %i milliseconds", avgWait);
+    printf("\nThroughput: 0.0%i jobs/millisecond", throughput);
+    printf("\nCPU Utilization: %i\n", cpuUtilization);
     
     return 0;
 }
