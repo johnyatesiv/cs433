@@ -5,3 +5,5 @@
 *.o
 **/nbproject/
 *.DS_Store
+/HW3/build/
+/HW3/dist/
